@@ -19,6 +19,5 @@ public class StorageFullException
     public StorageFullException(String message)
     {
         super(message);
-        // TODO: nothing else needed unless we add fields
     }
 }

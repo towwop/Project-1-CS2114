@@ -26,6 +26,7 @@ public class TaskStorage
     public TaskStorage()
     {
         // TODO: allocate taskArray, init size and newTaskId
+        // not implemented
     }
 
     //~ Public Methods ........................................................
@@ -45,7 +46,7 @@ public class TaskStorage
         throws StorageFullException
     {
         // TODO: check full, build Task with newTaskId, store it
-        return null;
+        return null; // not implemented
     }
 
     /**
@@ -69,7 +70,7 @@ public class TaskStorage
         throws StorageFullException
     {
         // TODO: check full, validate parent, build SubTask, store it
-        return null;
+        return null; // not implemented
     }
 
     /**
@@ -83,7 +84,7 @@ public class TaskStorage
     {
         // TODO: find, remove, shift left, decrement size
         // TODO: decide what happens to subtasks of a removed parent
-        return false;
+        return false; // not implemented
     }
 
     /**
@@ -98,7 +99,7 @@ public class TaskStorage
     public boolean editDescription(Task task, String newDescription)
     {
         // TODO: delegate to task.setDescription
-        return false;
+        return false; // not implemented
     }
 
     /**
@@ -113,7 +114,7 @@ public class TaskStorage
     public boolean editDate(Task task, LocalDate newDueDate)
     {
         // TODO: delegate to task.setDate
-        return false;
+        return false; // not implemented
     }
 
     /**
@@ -126,7 +127,7 @@ public class TaskStorage
     public Task getTaskFromID(int id)
     {
         // TODO: linear search on getId()
-        return null;
+        return null; // not implemented
     }
 
     /**
@@ -137,7 +138,7 @@ public class TaskStorage
     public int getSize()
     {
         // TODO: return size
-        return 0;
+        return 0; // not implemented
     }
 
     /**
@@ -148,6 +149,6 @@ public class TaskStorage
     public Task[] getTasks()
     {
         // TODO: return a copy of the occupied part of taskArray
-        return null;
+        return null; // not implemented
     }
 }

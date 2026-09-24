@@ -27,6 +27,7 @@ public class TUI
     public TUI(TaskStorage storage, Scanner scanner)
     {
         // TODO: store storage and scanner
+        // not implemented
     }
 
     //~ Public Methods ........................................................
@@ -37,6 +38,7 @@ public class TUI
     public void printTaskList()
     {
         // TODO: print storage.getTasks() without instanceof checks
+        // not implemented
     }
 
     /**
@@ -48,7 +50,7 @@ public class TUI
     public boolean handleUserAction()
     {
         // TODO: read action and dispatch to handler methods
-        return false;
+        return false; // not implemented
     }
 
     /**
@@ -59,6 +61,7 @@ public class TUI
     {
         // TODO: prompt, validate, re-prompt, call storage.add, catch
         // StorageFullException
+        // not implemented
     }
 
     /**
@@ -68,6 +71,7 @@ public class TUI
     public void handleAddSubtask()
     {
         // TODO: prompt, validate, re-prompt, call storage.addSubTask
+        // not implemented
     }
 
     /**
@@ -76,6 +80,7 @@ public class TUI
     public void handleRemoveTask()
     {
         // TODO: prompt for id, call storage.getTaskFromID and storage.remove
+        // not implemented
     }
 
     /**
@@ -85,5 +90,6 @@ public class TUI
     public void handleEditTask()
     {
         // TODO: prompt, call storage.editDescription and storage.editDate
+        // not implemented
     }
 }

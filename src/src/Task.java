@@ -30,6 +30,7 @@ public class Task
     public Task(int id, String description, LocalDate dueDate)
     {
         // TODO: store id, description, dueDate
+        // not implemented
     }
 
     //~ Public Methods ........................................................
@@ -42,7 +43,7 @@ public class Task
     public int getId()
     {
         // TODO: return id
-        return 0;
+        return 0; // not implemented
     }
 
     /**
@@ -53,7 +54,7 @@ public class Task
     public String getDescription()
     {
         // TODO: return description
-        return null;
+        return null; // not implemented
     }
 
     /**
@@ -66,7 +67,7 @@ public class Task
     public boolean setDescription(String description)
     {
         // TODO: reject null/empty, otherwise set
-        return false;
+        return false; // not implemented
     }
 
     /**
@@ -77,7 +78,7 @@ public class Task
     public LocalDate getDate()
     {
         // TODO: return dueDate
-        return null;
+        return null; // not implemented
     }
 
     /**
@@ -90,7 +91,7 @@ public class Task
     public boolean setDate(LocalDate newDueDate)
     {
         // TODO: reject null, otherwise set
-        return false;
+        return false; // not implemented
     }
 
     /**
@@ -102,6 +103,6 @@ public class Task
     public String toString()
     {
         // TODO: format id, description, due date
-        return null;
+        return null; // not implemented
     }
 }

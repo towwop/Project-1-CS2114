@@ -36,6 +36,7 @@ public class SubTask
     {
         super(id, description, dueDate);
         // TODO: store parentTaskId
+        // not implemented
     }
 
     //~ Public Methods ........................................................
@@ -48,7 +49,7 @@ public class SubTask
     public int getParentTaskId()
     {
         // TODO: return parentTaskId
-        return 0;
+        return 0; // not implemented
     }
 
     /**
@@ -61,6 +62,6 @@ public class SubTask
     public String toString()
     {
         // TODO: format like Task.toString() plus parent id
-        return null;
+        return null; // not implemented
     }
 }
