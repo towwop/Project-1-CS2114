@@ -1,9 +1,10 @@
 public class Task
 {
     //~ Fields ................................................................
-
-    //~ Constructors ..........................................................
-
+    public String getDescription() {
+        //test
+       return null;
+}
     //~Public  Methods ........................................................
     
     public boolean setDescription(String description) {
