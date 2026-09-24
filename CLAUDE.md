@@ -22,6 +22,17 @@ Main, TUI, TaskStorage, Task, SubTask, StorageFullException.
 - TUI prints items via `toString()` (overridden in SubTask), never `instanceof`.
 - All fields private.
 
+## Stub conventions
+- Every unfinished method body contains `// not implemented` (on the return line, or its own line for void/constructors).
+  Search for it to find remaining work. When implementing a method, delete both its `// not implemented` and its `// TODO:`.
+- Brace style: opening brace on its own line (CS2114 Eclipse formatter). Match it.
+
+## Git workflow
+- Work happens on branch `skeleton` (not yet merged to `main`; no PR opened yet). Don't commit directly to `main`.
+- Commit before large changes. Never force-push, rebase, or rewrite shared history.
+- `bin/` and `.DS_Store` are gitignored; don't commit build output.
+- Compile check: `javac -d /tmp/p1build src/src/*.java` from the repo root.
+
 ## Testing
 Framework: TBD, likely `student.TestCase` (Web-CAT student.jar). Not on the classpath yet. No tests written yet.
 
