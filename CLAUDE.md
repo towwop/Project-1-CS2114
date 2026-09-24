@@ -29,8 +29,11 @@ Main, TUI, TaskStorage, Task, SubTask, StorageFullException.
 - Brace style: opening brace on its own line (CS2114 Eclipse formatter). Match it.
 
 ## Git workflow
-- Work happens on branch `skeleton` (not yet merged to `main`; no PR opened yet). Don't commit directly to `main`.
-- Commit before large changes. Never force-push, rebase, or rewrite shared history.
+- We work directly on `main`. Run `git pull --ff-only` before starting work.
+- Run the compile check before any push.
+- Each of us commits and pushes manually. Claude never commits or pushes; when work is ready, it says so and suggests a commit message.
+- Before a large change, Claude says so first so you can commit the current state yourself.
+- Never force-push, rebase, or rewrite history.
 - `bin/` and `.DS_Store` are gitignored; don't commit build output.
 - Compile check: `javac --release 17 -d /tmp/p1build src/src/*.java` from the repo root.
 
