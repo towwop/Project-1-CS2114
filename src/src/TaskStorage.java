@@ -75,6 +75,7 @@ public class TaskStorage
 
     /**
      * Removes a task from storage.
+     * If task is a parent, its subtasks are removed too.
      *
      * @param task
      *            the task to remove
@@ -83,7 +84,7 @@ public class TaskStorage
     public boolean remove(Task task)
     {
         // TODO: find, remove, shift left, decrement size
-        // TODO: decide what happens to subtasks of a removed parent
+        // TODO: if task is a parent, also remove all its subtasks (cascade)
         return false; // not implemented
     }
 

@@ -5,7 +5,7 @@ Java 17. Eclipse project rooted at `src/`, sources in `src/src/` (default packag
 ## Team
 - Oscar, Abdullah, Vihaan. All three of us work on every file; no per-file ownership.
 - Before editing a file someone else is actively working on, check with them first.
-- Tests still need an owner per class, even though code is shared.
+- Tests still have one owner per class (see Testing).
 
 ## Classes (only these; no extra interfaces or abstract classes)
 Main, TUI, TaskStorage, Task, SubTask, StorageFullException.
@@ -19,8 +19,9 @@ Main, TUI, TaskStorage, Task, SubTask, StorageFullException.
 - Input reading, validation, and re-prompting happen only in TUI. Task and SubTask never read input.
   Model classes may reject bad values by returning false/null.
 - SubTask extends Task and adds `parentTaskId`. A subtask's parent must exist and cannot be a subtask.
+- Removing a parent Task also removes all of its SubTasks (cascade).
 - TUI prints items via `toString()` (overridden in SubTask), never `instanceof`.
-- All fields private.
+- All fields private except `public static final` constants.
 
 ## Stub conventions
 - Every unfinished method body contains `// not implemented` (on the return line, or its own line for void/constructors).
@@ -31,10 +32,15 @@ Main, TUI, TaskStorage, Task, SubTask, StorageFullException.
 - Work happens on branch `skeleton` (not yet merged to `main`; no PR opened yet). Don't commit directly to `main`.
 - Commit before large changes. Never force-push, rebase, or rewrite shared history.
 - `bin/` and `.DS_Store` are gitignored; don't commit build output.
-- Compile check: `javac -d /tmp/p1build src/src/*.java` from the repo root.
+- Compile check: `javac --release 17 -d /tmp/p1build src/src/*.java` from the repo root.
 
 ## Testing
 Framework: TBD, likely `student.TestCase` (Web-CAT student.jar). Not on the classpath yet. No tests written yet.
+
+Test owners (from the spec's Division of work):
+- TaskStorageTest: Oscar
+- TaskTest, SubTaskTest: Vihaan
+- TUITest: Abdullah
 
 ## Deliberate deviations from the spec PDF
 - `integer` -> `int`; missing return types -> `void`.
@@ -44,6 +50,7 @@ Framework: TBD, likely `student.TestCase` (Web-CAT student.jar). Not on the clas
 - `add(Task)` -> `Task add(String, LocalDate)`; added `Task addSubTask(String, LocalDate, int)`.
 - `TUI.handleUserAction()` returns `boolean` (false = quit) so Main can exit.
 - Added `StorageFullException(String message)` constructor.
-
-## Open decisions
-- What happens to subtasks when their parent is removed (cascade, refuse, or orphan).
+- SubTask constructor takes a 4th arg: `SubTask(int, String, LocalDate, int parentTaskId)`.
+- Main uses a local `TUI` variable in `main` instead of a `tui` field.
+- snake_case field names -> camelCase (`new_task_id` -> `newTaskId`, `due_date` -> `dueDate`, `parent_task_id` -> `parentTaskId`).
+- Validation moved: date-format checking (spec: Task) is in TUI; parent-id checking (spec: SubTask) is in TaskStorage (returns null) with TUI re-prompting.
