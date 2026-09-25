@@ -18,11 +18,6 @@ public class TaskStorage
     private int size;
     private int newTaskId;
 
-    
-    
-    
-    
-    
     //~ Constructors ..........................................................
 
     /**
@@ -35,11 +30,6 @@ public class TaskStorage
         newTaskId = 1;
     }
 
-    
-    
-    
-    
-    
     //~ Public Methods ........................................................
 
     /**
@@ -74,9 +64,6 @@ public class TaskStorage
         newTaskId++;
         return task;
     }
-    
-    
-    
 
     /**
      * Creates a subtask with the next id and adds it.
@@ -122,9 +109,6 @@ public class TaskStorage
         newTaskId++;
         return subTask;
     }
-    
-    
-    
 
     /**
      * Removes a task from storage.
@@ -182,9 +166,6 @@ public class TaskStorage
         return true;
     }
 
-    
-    
-    
     /**
      * Changes a task's description.
      *
@@ -231,10 +212,6 @@ public class TaskStorage
         return task.setDate(newDueDate);
     }
 
-    
-    
-    
-    
     /**
      * Finds a task by id.
      *
@@ -253,9 +230,6 @@ public class TaskStorage
         }
         return null;
     }
-    
-    
-    
 
     /**
      * Gets the number of stored tasks.
@@ -284,8 +258,6 @@ public class TaskStorage
         return copy;
     }
 
-    
-    
     //~ Private Methods .......................................................
 
     /**
