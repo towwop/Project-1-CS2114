@@ -129,7 +129,7 @@ public class TUI {
      * subtask to storage. The parent cannot be a subtask.
      */
     public void handleAddSubtask() {
-        Integer parentId = null;
+        int parentId = 0;
         
         while (true) {
             System.out.print("Input the parent task id (cannot be a subtask): ");
