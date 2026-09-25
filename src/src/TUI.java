@@ -232,8 +232,43 @@ public class TUI {
      * description or date leaves that field unchanged.
      */
     public void handleEditTask() {
-        // TODO: prompt, call storage.editDescription and storage.editDate
-        // not implemented
+        System.out.print("Enter the id of the task to edit: ");
+
+        String input = scanner.nextLine().trim();
+
+        if (input.length() == 0) {
+            return;
+        }
+
+        Task task = null;
+
+        try {
+            int taskId = Integer.parseInt(input);
+
+            task = storage.getTaskFromID(taskId);
+        }
+
+        catch (NumberFormatException e) {
+            System.out.println("Please input a number.");
+            return;
+        }
+
+        if (task == null) {
+            System.out.println("Task id does not belong to a valid task");
+
+            return;
+        }
+
+        String description = getUserTaskDescription();
+        LocalDate date = getUserTaskDate();
+
+        if (description != null) {
+            task.setDescription(description);
+        }
+
+        if (date != null) {
+            task.setDate(date);
+        }
     }
 
 
