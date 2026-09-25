@@ -85,8 +85,6 @@ public class TUI {
      * to storage.
      */
     public void handleAddTask() {
-        // TODO: prompt, validate, re-prompt, call storage.add, catch
-
         System.out.print("Would you like to add it as a subtask (y/N): ");
 
         String input = scanner.nextLine().trim();
@@ -113,15 +111,15 @@ public class TUI {
         if (date == null) {
             return;
         }
-        
+
         try {
             storage.add(description, date);
         }
-        
+
         catch (StorageFullException e) {
             System.out.println("Task storage is full. Remove a task first.");
         }
-        
+
         return;
     }
 
@@ -131,8 +129,58 @@ public class TUI {
      * subtask to storage. The parent cannot be a subtask.
      */
     public void handleAddSubtask() {
-        // TODO: prompt, validate, re-prompt, call storage.addSubTask
-        // not implemented
+        System.out.print("Input the parent task id (cannot be a subtask): ");
+
+        String input = scanner.nextLine().trim();
+
+        if (input.length() == 0) {
+            return;
+        }
+
+        Integer parentId = null;
+
+        try {
+            parentId = Integer.parseInt(input);
+        }
+
+        catch (NumberFormatException e) {
+            System.out.println("Please input a number.");
+            return;
+        }
+
+        Task parent = storage.getTaskFromID(parentId);
+        
+        if (parent == null) {
+            System.out.println("Id does not belong to a valid task.");
+            return;
+        }
+
+        else if (parent instanceof SubTask) {
+            System.out.println("Parent cannot be a subtask.");
+            return;
+        }
+
+        String description = getUserTaskDescription();
+
+        if (description == null) {
+            return;
+        }
+
+        LocalDate date = getUserTaskDate();
+
+        if (date == null) {
+            return;
+        }
+
+        try {
+            storage.addSubTask(description, date, parentId);
+        }
+
+        catch (StorageFullException e) {
+            System.out.println("Task storage is full. Remove a task first.");
+        }
+
+        return;
     }
 
 
@@ -194,10 +242,10 @@ public class TUI {
 
             try {
                 LocalDate date = LocalDate.parse(input, dateFormat);
-                
+
                 return date;
             }
-            
+
             catch (DateTimeParseException e) {
                 System.out.println("Incorrect date format. Try again.");
             }
