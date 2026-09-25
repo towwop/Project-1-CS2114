@@ -1,3 +1,4 @@
+import java.time.format.DateTimeFormatter;
 import java.util.Scanner;
 
 /**
@@ -7,14 +8,13 @@ import java.util.Scanner;
  * @author Oscar, Abdullah, Vihaan
  * @version 2026.09.24
  */
-public class TUI
-{
-    //~ Fields ................................................................
+public class TUI {
+    // ~ Fields ................................................................
 
     private TaskStorage storage;
     private Scanner scanner;
 
-    //~ Constructors ..........................................................
+    // ~ Constructors ..........................................................
 
     /**
      * Creates a TUI backed by the given storage and input scanner.
@@ -24,22 +24,27 @@ public class TUI
      * @param scanner
      *            the scanner to read user input from
      */
-    public TUI(TaskStorage storage, Scanner scanner)
-    {
+    public TUI(TaskStorage storage, Scanner scanner) {
         // TODO: store storage and scanner
         // not implemented
     }
 
-    //~ Public Methods ........................................................
+    // ~ Public Methods ........................................................
+
 
     /**
      * Prints every task in storage using each task's toString().
      */
-    public void printTaskList()
-    {
-        // TODO: print storage.getTasks() without instanceof checks
-        // not implemented
+    public void printTaskList() {
+        Task[] tasks = storage.getTasks();
+
+        for (int i = 0; i < tasks.length; i++) {
+            if (tasks[i] != null) {
+                printTask(tasks[i]);
+            }
+        }
     }
+
 
     /**
      * Asks the user for an action (add, add subtask, edit, remove, quit) and
@@ -47,49 +52,59 @@ public class TUI
      *
      * @return false if the user chose to quit, true otherwise
      */
-    public boolean handleUserAction()
-    {
+    public boolean handleUserAction() {
         // TODO: read action and dispatch to handler methods
         return false; // not implemented
     }
+
 
     /**
      * Asks for a description and due date (MM/DD/YYYY), then adds the task
      * to storage.
      */
-    public void handleAddTask()
-    {
+    public void handleAddTask() {
         // TODO: prompt, validate, re-prompt, call storage.add, catch
         // StorageFullException
         // not implemented
     }
 
+
     /**
      * Asks for a description, due date, and parent task id, then adds the
      * subtask to storage. The parent cannot be a subtask.
      */
-    public void handleAddSubtask()
-    {
+    public void handleAddSubtask() {
         // TODO: prompt, validate, re-prompt, call storage.addSubTask
         // not implemented
     }
 
+
     /**
      * Asks for a task id and removes that task. Re-prompts on an invalid id.
      */
-    public void handleRemoveTask()
-    {
+    public void handleRemoveTask() {
         // TODO: prompt for id, call storage.getTaskFromID and storage.remove
         // not implemented
     }
+
 
     /**
      * Asks for a task id, then a new description and date. A blank
      * description or date leaves that field unchanged.
      */
-    public void handleEditTask()
-    {
+    public void handleEditTask() {
         // TODO: prompt, call storage.editDescription and storage.editDate
         // not implemented
+    }
+
+
+    private void printTask(Task task) {
+        DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern(
+            "(MM/dd/yyyy)");
+
+        String idString = "[" + task.getId() + "]: ";
+        String dateString = task.getDate().format(dateFormat);
+
+        System.out.println(idString + task.getDescription() + " " + dateString);
     }
 }
