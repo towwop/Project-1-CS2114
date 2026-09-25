@@ -1,4 +1,5 @@
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
 /**
  * A single task with a unique id, a description, and a due date. Ids are
@@ -29,8 +30,9 @@ public class Task
      */
     public Task(int id, String description, LocalDate dueDate)
     {
-        // TODO: store id, description, dueDate
-        // not implemented
+        this.id = id;
+        this.description = description;
+        this.dueDate = dueDate;
     }
 
     //~ Public Methods ........................................................
@@ -42,8 +44,7 @@ public class Task
      */
     public int getId()
     {
-        // TODO: return id
-        return 0; // not implemented
+        return id;
     }
 
     /**
@@ -53,8 +54,7 @@ public class Task
      */
     public String getDescription()
     {
-        // TODO: return description
-        return null; // not implemented
+        return description;
     }
 
     /**
@@ -66,8 +66,12 @@ public class Task
      */
     public boolean setDescription(String description)
     {
-        // TODO: reject null/empty, otherwise set
-        return false; // not implemented
+        if (description == null || description.isBlank())
+        {
+            return false;
+        }
+        this.description = description;
+        return true;
     }
 
     /**
@@ -77,8 +81,7 @@ public class Task
      */
     public LocalDate getDate()
     {
-        // TODO: return dueDate
-        return null; // not implemented
+        return dueDate;
     }
 
     /**
@@ -90,8 +93,12 @@ public class Task
      */
     public boolean setDate(LocalDate newDueDate)
     {
-        // TODO: reject null, otherwise set
-        return false; // not implemented
+        if (newDueDate == null)
+        {
+            return false;
+        }
+        this.dueDate = newDueDate;
+        return true;
     }
 
     /**
@@ -102,7 +109,9 @@ public class Task
     @Override
     public String toString()
     {
-        // TODO: format id, description, due date
-        return null; // not implemented
+        DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern(
+            "MM/dd/yyyy");
+        return "[" + id + "]: " + description + " (Due: "
+            + dueDate.format(dateFormat) + ")";
     }
 }

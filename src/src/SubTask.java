@@ -1,4 +1,5 @@
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
 /**
  * A task that belongs to a parent task. The parent must exist and cannot
@@ -35,8 +36,7 @@ public class SubTask
         int parentTaskId)
     {
         super(id, description, dueDate);
-        // TODO: store parentTaskId
-        // not implemented
+        this.parentTaskId = parentTaskId;
     }
 
     //~ Public Methods ........................................................
@@ -48,8 +48,7 @@ public class SubTask
      */
     public int getParentTaskId()
     {
-        // TODO: return parentTaskId
-        return 0; // not implemented
+        return parentTaskId;
     }
 
     /**
@@ -61,7 +60,10 @@ public class SubTask
     @Override
     public String toString()
     {
-        // TODO: format like Task.toString() plus parent id
-        return null; // not implemented
+        DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern(
+            "MM/dd/yyyy");
+        return "[" + parentTaskId + " -> " + getId() + "]: "
+            + getDescription() + " (Due: " + getDate().format(dateFormat)
+            + ")";
     }
 }
