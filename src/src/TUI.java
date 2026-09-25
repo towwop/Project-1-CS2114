@@ -53,8 +53,26 @@ public class TUI {
      * @return false if the user chose to quit, true otherwise
      */
     public boolean handleUserAction() {
-        // TODO: read action and dispatch to handler methods
-        return false; // not implemented
+        System.out.print(
+            "Would you like to (a)dd, (e)dit, or (r)emove a task: ");
+        
+        String input = scanner.nextLine().trim();
+        
+        if (input.length() == 0) {
+            return true;
+        }
+        
+        char c = Character.toLowerCase(input.charAt(0));
+        
+        if (c == 'a') {
+            handleAddTask();
+        } else if (c == 'e') {
+            handleEditTask();
+        } else if (c == 'r') {
+            handleRemoveTask();
+        }
+
+        return false;
     }
 
 
