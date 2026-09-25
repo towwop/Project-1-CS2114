@@ -130,15 +130,16 @@ public class TUI {
      */
     public void handleAddSubtask() {
         int parentId = 0;
-        
+
         while (true) {
-            System.out.print("Input the parent task id (cannot be a subtask): ");
+            System.out.print(
+                "Input the parent task id (cannot be a subtask): ");
 
             String input = scanner.nextLine().trim();
 
             if (input.length() == 0) {
                 return;
-            }        
+            }
 
             try {
                 parentId = Integer.parseInt(input);
@@ -150,7 +151,7 @@ public class TUI {
             }
 
             Task parent = storage.getTaskFromID(parentId);
-            
+
             if (parent == null) {
                 System.out.println("Id does not belong to a valid task.");
                 continue;
@@ -160,7 +161,7 @@ public class TUI {
                 System.out.println("Parent cannot be a subtask.");
                 continue;
             }
-            
+
             break;
         }
 
@@ -192,8 +193,37 @@ public class TUI {
      * Asks for a task id and removes that task. Re-prompts on an invalid id.
      */
     public void handleRemoveTask() {
-        // TODO: prompt for id, call storage.getTaskFromID and storage.remove
-        // not implemented
+        while (true) {
+            System.out.print("Enter the id of the task to remove: ");
+
+            String input = scanner.nextLine().trim();
+
+            if (input.length() == 0) {
+                return;
+            }
+
+            Task task = null;
+
+            try {
+                int taskId = Integer.parseInt(input);
+
+                task = storage.getTaskFromID(taskId);
+            }
+
+            catch (NumberFormatException e) {
+                System.out.println("Please input a number.");
+                continue;
+            }
+
+            if (task == null) {
+                System.out.println("Task id does not belong to a valid task");
+
+                continue;
+            }
+
+            storage.remove(task);
+            return;
+        }
     }
 
 
