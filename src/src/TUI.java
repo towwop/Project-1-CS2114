@@ -1,4 +1,6 @@
+import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 import java.util.Scanner;
 
 /**
@@ -55,20 +57,22 @@ public class TUI {
     public boolean handleUserAction() {
         System.out.print(
             "Would you like to (a)dd, (e)dit, or (r)emove a task: ");
-        
+
         String input = scanner.nextLine().trim();
-        
+
         if (input.length() == 0) {
             return true;
         }
-        
+
         char c = Character.toLowerCase(input.charAt(0));
-        
+
         if (c == 'a') {
             handleAddTask();
-        } else if (c == 'e') {
+        }
+        else if (c == 'e') {
             handleEditTask();
-        } else if (c == 'r') {
+        }
+        else if (c == 'r') {
             handleRemoveTask();
         }
 
@@ -82,8 +86,43 @@ public class TUI {
      */
     public void handleAddTask() {
         // TODO: prompt, validate, re-prompt, call storage.add, catch
-        // StorageFullException
-        // not implemented
+
+        System.out.print("Would you like to add it as a subtask (y/N): ");
+
+        String input = scanner.nextLine().trim();
+
+        if (input.length() == 0) {
+            return;
+        }
+
+        char c = Character.toLowerCase(input.charAt(0));
+
+        if (c == 'y') {
+            handleAddSubtask();
+            return;
+        }
+
+        String description = getUserTaskDescription();
+
+        if (description == null) {
+            return;
+        }
+
+        LocalDate date = getUserTaskDate();
+
+        if (date == null) {
+            return;
+        }
+        
+        try {
+            storage.add(description, date);
+        }
+        
+        catch (StorageFullException e) {
+            System.out.println("Task storage is full. Remove a task first.");
+        }
+        
+        return;
     }
 
 
@@ -124,5 +163,44 @@ public class TUI {
         String dateString = task.getDate().format(dateFormat);
 
         System.out.println(idString + task.getDescription() + " " + dateString);
+    }
+
+
+    private String getUserTaskDescription() {
+        System.out.print("Input the task description: ");
+
+        String input = scanner.nextLine().trim();
+
+        if (input.length() != 0) {
+            return input;
+        }
+
+        return null;
+    }
+
+
+    private LocalDate getUserTaskDate() {
+        DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern(
+            "MM/dd/yyyy");
+
+        while (true) {
+            System.out.print("Input the task due date [mm/dd/yyyy]: ");
+
+            String input = scanner.nextLine().trim();
+
+            if (input.length() == 0) {
+                return null;
+            }
+
+            try {
+                LocalDate date = LocalDate.parse(input, dateFormat);
+                
+                return date;
+            }
+            
+            catch (DateTimeParseException e) {
+                System.out.println("Incorrect date format. Try again.");
+            }
+        }
     }
 }
