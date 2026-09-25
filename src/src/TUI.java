@@ -1,6 +1,7 @@
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
+import java.time.format.ResolverStyle;
 import java.util.Scanner;
 
 /**
@@ -291,8 +292,11 @@ public class TUI {
 
 
     private LocalDate getUserTaskDate() {
+        // STRICT rejects impossible dates like 02/30 instead of rounding them
+        // down to the last real day. STRICT needs "uuuu" (year), not "yyyy"
+        // (year-of-era), or every date fails to parse.
         DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern(
-            "MM/dd/yyyy");
+            "MM/dd/uuuu").withResolverStyle(ResolverStyle.STRICT);
 
         while (true) {
             System.out.print("Input the task due date [mm/dd/yyyy]: ");
