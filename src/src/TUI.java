@@ -39,12 +39,17 @@ public class TUI {
      */
     public void printTaskList() {
         Task[] tasks = storage.getTasks();
+        
+        System.out.println("-------------------------------");
 
         for (int i = 0; i < tasks.length; i++) {
             if (tasks[i] != null) {
-                printTask(tasks[i]);
+                System.out.println(tasks[i]);
+                // printTask(tasks[i]);
             }
         }
+        
+        System.out.println("-------------------------------");
     }
 
 
@@ -61,7 +66,7 @@ public class TUI {
         String input = scanner.nextLine().trim();
 
         if (input.isEmpty()) {
-            return true;
+            return false;
         }
 
         char c = Character.toLowerCase(input.charAt(0));
@@ -76,7 +81,7 @@ public class TUI {
             handleRemoveTask();
         }
 
-        return false;
+        return true;
     }
 
 
@@ -88,9 +93,9 @@ public class TUI {
         System.out.print("Would you like to add it as a subtask (y/N): ");
 
         String input = scanner.nextLine().trim();
-
+        
         if (input.isEmpty()) {
-            return;
+            input = "n"; // make no the default
         }
 
         char c = Character.toLowerCase(input.charAt(0));
@@ -117,7 +122,7 @@ public class TUI {
         }
 
         catch (StorageFullException e) {
-            System.out.println("Task storage is full. Remove a task first.");
+            System.out.println("Task storage is full. Remove a task first.\n");
         }
 
         return;
@@ -146,19 +151,19 @@ public class TUI {
             }
 
             catch (NumberFormatException e) {
-                System.out.println("Please input a number.");
+                System.out.println("Please input a number.\n");
                 continue;
             }
 
             Task parent = storage.getTaskFromID(parentId);
 
             if (parent == null) {
-                System.out.println("Id does not belong to a valid task.");
+                System.out.println("Id does not belong to a valid task.\n");
                 continue;
             }
 
             else if (parent instanceof SubTask) {
-                System.out.println("Parent cannot be a subtask.");
+                System.out.println("Parent cannot be a subtask.\n");
                 continue;
             }
 
@@ -182,7 +187,7 @@ public class TUI {
         }
 
         catch (StorageFullException e) {
-            System.out.println("Task storage is full. Remove a task first.");
+            System.out.println("Task storage is full. Remove a task first.\n");
         }
 
         return;
@@ -211,12 +216,12 @@ public class TUI {
             }
 
             catch (NumberFormatException e) {
-                System.out.println("Please input a number.");
+                System.out.println("Please input a number.\n");
                 continue;
             }
 
             if (task == null) {
-                System.out.println("Task id does not belong to a valid task");
+                System.out.println("Task id does not belong to a valid task.\n");
 
                 continue;
             }
@@ -249,12 +254,12 @@ public class TUI {
         }
 
         catch (NumberFormatException e) {
-            System.out.println("Please input a number.");
+            System.out.println("Please input a number.\n");
             return;
         }
 
         if (task == null) {
-            System.out.println("Task id does not belong to a valid task");
+            System.out.println("Task id does not belong to a valid task.\n");
 
             return;
         }
@@ -270,30 +275,7 @@ public class TUI {
             task.setDate(date);
         }
     }
-
-
-    private void printTask(Task task) {
-        DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern(
-            "MM/dd/yyyy");
-
-        String idString = "[";
-
-        if (task instanceof SubTask) {
-            SubTask subtask = (SubTask)task;
-
-            idString += subtask.getParentTaskId();
-
-            idString += " -> ";
-        }
-
-        idString += task.getId() + "]: ";
-
-        String dateString = task.getDate().format(dateFormat);
-
-        System.out.println(idString + task.getDescription() + "\n\tDue: "
-            + dateString);
-    }
-
+    
 
     private String getUserTaskDescription() {
         System.out.print("Input the task description: ");
@@ -328,7 +310,7 @@ public class TUI {
             }
 
             catch (DateTimeParseException e) {
-                System.out.println("Incorrect date format. Try again.");
+                System.out.println("Incorrect date format. Try again.\n");
             }
         }
     }

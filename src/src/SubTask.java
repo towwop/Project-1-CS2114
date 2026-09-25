@@ -62,7 +62,7 @@ public class SubTask
     {
         DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern(
             "MM/dd/yyyy");
-        return "[" + parentTaskId + " -> " + getId() + "]: "
+        return "[" + parentTaskId + "->" + getId() + "]: "
             + getDescription() + " (Due: " + getDate().format(dateFormat)
             + ")";
     }
