@@ -1,3 +1,5 @@
+import java.util.Scanner;
+
 /**
  * Entry point. Creates the TaskStorage and TUI and runs the main loop.
  *
@@ -14,7 +16,16 @@ public class Main
      */
     public static void main(String[] args)
     {
-        // TODO: create TaskStorage and TUI, loop on handleUserAction()
-        // not implemented
+        Scanner scanner = new Scanner(System.in);
+        
+        TaskStorage storage = new TaskStorage();
+        TUI ui = new TUI(storage, scanner);
+        
+        boolean running = true;
+        
+        while (running) {
+            ui.printTaskList();
+            running = ui.handleUserAction();
+        }
     }
 }
