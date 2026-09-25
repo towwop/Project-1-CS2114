@@ -25,8 +25,9 @@ public class TaskStorage
      */
     public TaskStorage()
     {
-        // TODO: allocate taskArray, init size and newTaskId
-        // not implemented
+        taskArray = new Task[MAX_TASKS];
+        size = 0;
+        newTaskId = 1;
     }
 
     //~ Public Methods ........................................................
@@ -45,8 +46,23 @@ public class TaskStorage
     public Task add(String description, LocalDate dueDate)
         throws StorageFullException
     {
-        // TODO: check full, build Task with newTaskId, store it
-        return null; // not implemented
+        if (size == MAX_TASKS)
+        {
+            throw new StorageFullException(
+                "Storage is full (" + MAX_TASKS + " tasks)");
+        }
+        if (description == null || description.isBlank() || dueDate == null)
+        {
+            return null;
+        }
+
+        Task task = new Task(newTaskId, description, dueDate);
+        taskArray[size] = task;
+        size++;
+        // Only bump the id after a successful add. It never goes down, so
+        // ids are never reused, even after removals.
+        newTaskId++;
+        return task;
     }
 
     /**
@@ -69,8 +85,29 @@ public class TaskStorage
         int parentTaskId)
         throws StorageFullException
     {
-        // TODO: check full, validate parent, build SubTask, store it
-        return null; // not implemented
+        if (size == MAX_TASKS)
+        {
+            throw new StorageFullException(
+                "Storage is full (" + MAX_TASKS + " tasks)");
+        }
+
+        // Subtasks only go one level deep, so the parent must be a plain Task.
+        Task parent = getTaskFromID(parentTaskId);
+        if (parent == null || parent instanceof SubTask)
+        {
+            return null;
+        }
+        if (description == null || description.isBlank() || dueDate == null)
+        {
+            return null;
+        }
+
+        Task subTask =
+            new SubTask(newTaskId, description, dueDate, parentTaskId);
+        taskArray[size] = subTask;
+        size++;
+        newTaskId++;
+        return subTask;
     }
 
     /**
@@ -83,9 +120,50 @@ public class TaskStorage
      */
     public boolean remove(Task task)
     {
-        // TODO: find, remove, shift left, decrement size
-        // TODO: if task is a parent, also remove all its subtasks (cascade)
-        return false; // not implemented
+        if (task == null)
+        {
+            return false;
+        }
+
+        // Look for this exact object (==), not just a matching id, so a Task
+        // made outside storage isn't treated as stored.
+        int index = -1;
+        for (int i = 0; i < size; i++)
+        {
+            if (taskArray[i] == task)
+            {
+                index = i;
+            }
+        }
+        if (index == -1)
+        {
+            return false;
+        }
+
+        removeAt(index);
+
+        // Cascade: a plain Task may have subtasks, so remove every SubTask
+        // whose parent id matches. A SubTask can't have children, so skip it.
+        if (!(task instanceof SubTask))
+        {
+            int i = 0;
+            while (i < size)
+            {
+                if (taskArray[i] instanceof SubTask
+                    && ((SubTask)taskArray[i]).getParentTaskId() == task
+                        .getId())
+                {
+                    // Don't advance i: removeAt slid the next task into
+                    // slot i, and it still needs to be checked.
+                    removeAt(i);
+                }
+                else
+                {
+                    i++;
+                }
+            }
+        }
+        return true;
     }
 
     /**
@@ -95,12 +173,21 @@ public class TaskStorage
      *            the task to edit
      * @param newDescription
      *            the new description
-     * @return false if task is null or newDescription is empty
+     * @return false if task is null or not in storage, or newDescription is
+     *         null or blank
      */
     public boolean editDescription(Task task, String newDescription)
     {
-        // TODO: delegate to task.setDescription
-        return false; // not implemented
+        // Same-object check: the task must be the one actually stored.
+        if (task == null || getTaskFromID(task.getId()) != task)
+        {
+            return false;
+        }
+        if (newDescription == null || newDescription.isBlank())
+        {
+            return false;
+        }
+        return task.setDescription(newDescription);
     }
 
     /**
@@ -110,12 +197,19 @@ public class TaskStorage
      *            the task to edit
      * @param newDueDate
      *            the new due date
-     * @return false if task or newDueDate is null
+     * @return false if task is null or not in storage, or newDueDate is null
      */
     public boolean editDate(Task task, LocalDate newDueDate)
     {
-        // TODO: delegate to task.setDate
-        return false; // not implemented
+        if (task == null || getTaskFromID(task.getId()) != task)
+        {
+            return false;
+        }
+        if (newDueDate == null)
+        {
+            return false;
+        }
+        return task.setDate(newDueDate);
     }
 
     /**
@@ -127,8 +221,14 @@ public class TaskStorage
      */
     public Task getTaskFromID(int id)
     {
-        // TODO: linear search on getId()
-        return null; // not implemented
+        for (int i = 0; i < size; i++)
+        {
+            if (taskArray[i].getId() == id)
+            {
+                return taskArray[i];
+            }
+        }
+        return null;
     }
 
     /**
@@ -138,8 +238,7 @@ public class TaskStorage
      */
     public int getSize()
     {
-        // TODO: return size
-        return 0; // not implemented
+        return size;
     }
 
     /**
@@ -149,7 +248,35 @@ public class TaskStorage
      */
     public Task[] getTasks()
     {
-        // TODO: return a copy of the occupied part of taskArray
-        return null; // not implemented
+        // Return a copy, not taskArray itself. Otherwise a caller could put
+        // nulls or gaps into our array and size would no longer be accurate.
+        Task[] copy = new Task[size];
+        for (int i = 0; i < size; i++)
+        {
+            copy[i] = taskArray[i];
+        }
+        return copy;
+    }
+
+    //~ Private Methods .......................................................
+
+    /**
+     * Removes the task at index and shifts everything after it one slot
+     * left so there are no gaps.
+     *
+     * @param index
+     *            the index to remove, between 0 and size - 1
+     */
+    private void removeAt(int index)
+    {
+        // Shift left: each later task moves down one slot, overwriting the
+        // removed one.
+        for (int i = index; i < size - 1; i++)
+        {
+            taskArray[i] = taskArray[i + 1];
+        }
+        // The last slot now holds a duplicate of the last task, so clear it.
+        taskArray[size - 1] = null;
+        size--;
     }
 }
