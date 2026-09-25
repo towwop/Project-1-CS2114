@@ -129,35 +129,39 @@ public class TUI {
      * subtask to storage. The parent cannot be a subtask.
      */
     public void handleAddSubtask() {
-        System.out.print("Input the parent task id (cannot be a subtask): ");
-
-        String input = scanner.nextLine().trim();
-
-        if (input.length() == 0) {
-            return;
-        }
-
         Integer parentId = null;
-
-        try {
-            parentId = Integer.parseInt(input);
-        }
-
-        catch (NumberFormatException e) {
-            System.out.println("Please input a number.");
-            return;
-        }
-
-        Task parent = storage.getTaskFromID(parentId);
         
-        if (parent == null) {
-            System.out.println("Id does not belong to a valid task.");
-            return;
-        }
+        while (true) {
+            System.out.print("Input the parent task id (cannot be a subtask): ");
 
-        else if (parent instanceof SubTask) {
-            System.out.println("Parent cannot be a subtask.");
-            return;
+            String input = scanner.nextLine().trim();
+
+            if (input.length() == 0) {
+                return;
+            }        
+
+            try {
+                parentId = Integer.parseInt(input);
+            }
+
+            catch (NumberFormatException e) {
+                System.out.println("Please input a number.");
+                continue;
+            }
+
+            Task parent = storage.getTaskFromID(parentId);
+            
+            if (parent == null) {
+                System.out.println("Id does not belong to a valid task.");
+                continue;
+            }
+
+            else if (parent instanceof SubTask) {
+                System.out.println("Parent cannot be a subtask.");
+                continue;
+            }
+            
+            break;
         }
 
         String description = getUserTaskDescription();
