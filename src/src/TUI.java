@@ -60,7 +60,7 @@ public class TUI {
 
         String input = scanner.nextLine().trim();
 
-        if (input.length() == 0) {
+        if (input.isEmpty()) {
             return true;
         }
 
@@ -89,7 +89,7 @@ public class TUI {
 
         String input = scanner.nextLine().trim();
 
-        if (input.length() == 0) {
+        if (input.isEmpty()) {
             return;
         }
 
@@ -137,7 +137,7 @@ public class TUI {
 
             String input = scanner.nextLine().trim();
 
-            if (input.length() == 0) {
+            if (input.isEmpty()) {
                 return;
             }
 
@@ -198,7 +198,7 @@ public class TUI {
 
             String input = scanner.nextLine().trim();
 
-            if (input.length() == 0) {
+            if (input.isEmpty()) {
                 return;
             }
 
@@ -236,7 +236,7 @@ public class TUI {
 
         String input = scanner.nextLine().trim();
 
-        if (input.length() == 0) {
+        if (input.isEmpty()) {
             return;
         }
 
@@ -305,7 +305,7 @@ public class TUI {
 
             String input = scanner.nextLine().trim();
 
-            if (input.length() == 0) {
+            if (input.isEmpty()) {
                 return null;
             }
 
