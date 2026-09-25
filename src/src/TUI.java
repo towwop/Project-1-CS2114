@@ -27,8 +27,8 @@ public class TUI {
      *            the scanner to read user input from
      */
     public TUI(TaskStorage storage, Scanner scanner) {
-        // TODO: store storage and scanner
-        // not implemented
+        this.storage = storage;
+        this.scanner = scanner;
     }
 
     // ~ Public Methods ........................................................
