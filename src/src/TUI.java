@@ -274,12 +274,24 @@ public class TUI {
 
     private void printTask(Task task) {
         DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern(
-            "(MM/dd/yyyy)");
+            "MM/dd/yyyy");
 
-        String idString = "[" + task.getId() + "]: ";
+        String idString = "[";
+
+        if (task instanceof SubTask) {
+            SubTask subtask = (SubTask)task;
+
+            idString += subtask.getParentTaskId();
+
+            idString += " -> ";
+        }
+
+        idString += task.getId() + "]: ";
+
         String dateString = task.getDate().format(dateFormat);
 
-        System.out.println(idString + task.getDescription() + " " + dateString);
+        System.out.println(idString + task.getDescription() + "\n\tDue: "
+            + dateString);
     }
 
 

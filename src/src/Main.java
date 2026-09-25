@@ -24,7 +24,7 @@ public class Main {
         while (running) {
             ui.printTaskList();
             
-            System.out.println("Note: Leave input blank to exit.");
+            System.out.println("Note: Leave input blank to exit.\n");
             
             running = ui.handleUserAction();
         }
